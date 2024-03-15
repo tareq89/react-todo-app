@@ -1,22 +1,24 @@
-import React from "react"
-import { createPortal } from "react-dom"
-import styles from "../sass/Modal.module.scss"
+import React from "react";
+import { createPortal } from "react-dom";
+import Modal from "react-bootstrap/Modal";
+import styles from "../sass/Modal.module.scss";
+import Button from "react-bootstrap/Button";
 
-export const Modal = ({ onClose, showModal, children }) => {
+export const FormModal = ({ title, onClose, showModal, submit, reset, children }) => {
   return (
-    <>
-      {showModal &&
-        createPortal(
-          <div id="myModal" className={styles.modal}>
-            <div className={styles.modalContent}>
-              <button onClick={onClose}>
-                <span className={styles.close}>&times;</span>
-              </button>
-              {children}
-            </div>
-          </div>,
-          document.body
-        )}
-    </>
-  )
-}
+    <Modal show={showModal} onHide={onClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{children}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={reset}>
+          Clear
+        </Button>
+        <Button variant="primary" onClick={submit}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};

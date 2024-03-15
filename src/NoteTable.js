@@ -1,9 +1,11 @@
-import React from "react"
-import { NoteForm } from "./NoteForm/NoteForm"
+import React from "react";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
+import { NoteForm } from "./NoteForm/NoteForm";
 
 export const NoteTable = ({ notes, updateNote, deleteNote }) => {
   return (
-    <table>
+    <Table bordered striped>
       <thead>
         <tr>
           <th>Title</th>
@@ -27,12 +29,14 @@ export const NoteTable = ({ notes, updateNote, deleteNote }) => {
               <td>{note.updatedAt}</td>
               <td>
                 <NoteForm submitNote={updateNote} defaultNote={note} label={"Update"} />
-                <button onClick={() => deleteNote(note.id)}>Delete</button>
+                <Button variant="outline-danger" onClick={() => deleteNote(note.id)}>
+                  Delete
+                </Button>
               </td>
             </tr>
-          )
+          );
         })}
       </tbody>
-    </table>
-  )
-}
+    </Table>
+  );
+};

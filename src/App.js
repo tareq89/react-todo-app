@@ -1,8 +1,9 @@
-import "./sass/App.scss"
-import { useState } from "react"
-import { uid } from "uid"
-import { NoteTable } from "./NoteTable"
-import { NoteForm } from "./NoteForm/NoteForm"
+import "./sass/App.scss";
+import "bootstrap/dist/css/bootstrap.css";
+import { useState } from "react";
+import { uid } from "uid";
+import { NoteTable } from "./NoteTable";
+import { NoteForm } from "./NoteForm/NoteForm";
 
 const mockNotes = [
   {
@@ -41,39 +42,38 @@ const mockNotes = [
     createdAt: "2024-03-12T05:19:29.533Z",
     updatedAt: "2024-03-12T05:19:29.533Z",
   },
-]
-function App() {
-  const [notes, setNotes] = useState(mockNotes)
+];
+
+export const App = () => {
+  const [notes, setNotes] = useState(mockNotes);
 
   const addNote = (newNote) => {
-    setNotes([...notes, newNote])
-  }
+    setNotes([...notes, newNote]);
+  };
 
   const updateNote = (updatedNote) => {
     const newNotes = notes.map((x) => {
       if (x.id === updatedNote.id) {
-        x = updatedNote
+        x = updatedNote;
       }
-      return x
-    })
+      return x;
+    });
 
-    setNotes(newNotes)
-  }
+    setNotes(newNotes);
+  };
 
   const deleteNote = (id) => {
     setNotes(
       notes.filter((note) => {
-        return note.id !== id
+        return note.id !== id;
       })
-    )
-  }
+    );
+  };
   return (
-    <>
+    <div className="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
       <NoteForm submitNote={addNote} label={"Add Note"} />
       <br />
       <NoteTable notes={notes} updateNote={updateNote} deleteNote={deleteNote} />
-    </>
-  )
-}
-
-export default App
+    </div>
+  );
+};
