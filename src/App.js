@@ -8,7 +8,7 @@ import { addNote as createNote } from "./api";
 import { Toast } from "./Common/Toast";
 
 export const App = () => {
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState([]);
   const [toastConfig, setToastConfig] = useState({ show: false });
 
   const addNote = async (newNote) => {

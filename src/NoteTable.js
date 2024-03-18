@@ -18,7 +18,7 @@ export const NoteTable = ({ notes, updateNote, deleteNote }) => {
         </tr>
       </thead>
       <tbody>
-        {notes.map((note, i) => {
+        {notes && notes.map((note, i) => {
           return (
             <tr key={i}>
               <td>{note.title}</td>
