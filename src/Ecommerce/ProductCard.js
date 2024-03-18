@@ -2,16 +2,27 @@ import React, { useMemo } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useCartStore } from "./store";
 import { ThemeContext } from "./Ecommerce";
+import { useNavigate } from "react-router-dom";
 
 export const ProductCard = (product) => {
   const { addItem } = useCartStore();
+  const navigate = useNavigate();
+
   const randomImageUrl = useMemo(() => `https://picsum.photos/200/200?random=${Math.random()}`, []);
 
   return (
     <ThemeContext.Consumer>
       {(value) => (
         <Card style={{ width: "18rem" }}>
-          <Card.Img src={randomImageUrl} variant="top" style={{ width: "18rem" }} />
+          <Card.Img
+            src={randomImageUrl}
+            variant="top"
+            style={{ width: "18rem" }}
+            onClick={() => {
+              console.log("product clicked ", product.id);
+              navigate(`/ecommerce/product/${product.id}`);
+            }}
+          />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
             <Card.Text>Price: ${product.price}</Card.Text>

@@ -4,51 +4,29 @@ import { useState } from "react";
 import { uid } from "uid";
 import { NoteTable } from "./NoteTable";
 import { NoteForm } from "./NoteForm/NoteForm";
-
-const mockNotes = [
-  {
-    id: uid(),
-    title: "Note 1",
-    desc: "Note 1 description",
-    priority: 5,
-    status: "Pending",
-    createdAt: "2024-03-12T05:19:29.533Z",
-    updatedAt: "2024-03-12T05:19:29.533Z",
-  },
-  {
-    id: uid(),
-    title: "Note 1",
-    desc: "Note 1 description",
-    priority: 5,
-    status: "Pending",
-    createdAt: "2024-03-12T05:19:29.533Z",
-    updatedAt: "2024-03-12T05:19:29.533Z",
-  },
-  {
-    id: uid(),
-    title: "Note 2",
-    desc: "Note 2 description",
-    priority: 3,
-    status: "Pending",
-    createdAt: "2024-03-12T05:19:29.533Z",
-    updatedAt: "2024-03-12T05:19:29.533Z",
-  },
-  {
-    id: uid(),
-    title: "Note 3",
-    desc: "Note 3 description",
-    priority: 1,
-    status: "Pending",
-    createdAt: "2024-03-12T05:19:29.533Z",
-    updatedAt: "2024-03-12T05:19:29.533Z",
-  },
-];
+import { addNote as createNote } from "./api";
+import { Toast } from "./Common/Toast";
 
 export const App = () => {
-  const [notes, setNotes] = useState(mockNotes);
+  const [notes, setNotes] = useState();
+  const [toastConfig, setToastConfig] = useState({ show: false });
 
-  const addNote = (newNote) => {
-    setNotes([...notes, newNote]);
+  const addNote = async (newNote) => {
+    try {
+      const note = await createNote(newNote);
+      setNotes([...notes, note]);
+    } catch (error) {
+      setToastConfig({
+        show: true,
+        variant: "danger",
+        title: "Error",
+        message: "Couldn't add new note due to " + error,
+        onClose: () => {},
+      });
+      setTimeout(() => {
+        setToastConfig({ show: false });
+      }, 5 * 1000);
+    }
   };
 
   const updateNote = (updatedNote) => {
@@ -72,6 +50,7 @@ export const App = () => {
   return (
     <div className="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
       <NoteForm submitNote={addNote} label={"Add Note"} />
+      <Toast {...toastConfig} />
       <br />
       <NoteTable notes={notes} updateNote={updateNote} deleteNote={deleteNote} />
     </div>
