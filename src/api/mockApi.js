@@ -44,6 +44,7 @@ const addMockNote = (requestConfig) => {
     ...requestConfig.data,
   };
   mockNotes.push(newNote);
+  // console.log(mockNotes);
   return Promise.resolve(newNote);
 };
 const updateMockNote = (requestConfig) => {
